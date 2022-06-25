@@ -95,8 +95,8 @@ today_date=$(date +'%d_%m_%Y_%H_%M_%S')    # eg., O/P:- 25_06_2022_23_32_55
 
 
 # ? Creating a MySQL dump.
-# sudo mysql -u"$msql_username" -p"$mysql_password" "$mysql_db_name" > "$working_dir"+"/"+"$file_name"+"_"+"$today_date".sql
-sudo mysqldump -u"$msql_username" -p"$mysql_password" "$mysql_db_name" > "$working_dir"+"/"+"$file_name"+"_"+"$today_date".sql
+# mysql -u"$msql_username" -p"$mysql_password" "$mysql_db_name" > "$working_dir"+"/"+"$file_name"+"_"+"$today_date".sql
+mysqldump -u"$msql_username" -p"$mysql_password" "$mysql_db_name" > "$working_dir"+"/"+"$file_name"+"_"+"$today_date".sql
 
 
 # ? Performing compression on the dump created above to save disk space.
@@ -132,6 +132,10 @@ esac
 # 0 1 * * * sudo /full_path_here/auto_mysql_db_backup.sh >> /home/$USER/log/auto_mysql_db_backup.log 2>&1    # If you want to save a log.
 # 0 1 * * * sudo /full_path_here/auto_mysql_db_backup.sh >/dev/null 2>&1    # If you don't want to log
 
+#? Crontab commands:-
+# crontab -l = List cron tables
+# crontab -e = create a new cron table.
+# crontab -r = removes a cron table and all cron scheduled jobs.
 
 
 
