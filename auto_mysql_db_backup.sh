@@ -129,7 +129,7 @@ esac
 # https://fedingo.com/how-to-run-shell-script-as-cron-job/
 # crontab -e
 # ? add this line below in it:-
-# 0 1 * * * sudo /full_path_here/auto_mysql_db_backup.sh >> /home/$USER/log/auto_mysql_db_backup.log 2>&1    # If you want to save a log.
+# 0 1 * * * sudo /full_path_here/auto_mysql_db_backup.sh >> /home/$USER/log/auto_mysql_db_backup.log 2>&1    # ! Don't forget to create a log dir and .log file with the same name used in this.
 # 0 1 * * * sudo /full_path_here/auto_mysql_db_backup.sh >/dev/null 2>&1    # If you don't want to log
 
 #? Crontab commands:-
