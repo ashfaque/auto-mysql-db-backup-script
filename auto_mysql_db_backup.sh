@@ -32,11 +32,13 @@ mysql_db_name="db_name"
 
 # mkdir -p "$working_dir"    # This will create the dir, if it doesn't exists. But if `$working_dir` is not a dir but a file and it exists. Then we will have a problem. So to solve this, I wrote this code below.
 # ? If the working directory doesn't exists it will create one. If another file exists with the same name then it will create the dir with `_DB_BKUP` as a suffix.
-if [[ ! -e "$working_dir" ]]; then
-    mkdir -p "$working_dir"
-elif [[ ! -d "$working_dir" ]]; then
-    working_dir+="_DB_BKUP"
-    mkdir -p "$working_dir"
+if [ ! -e $working_dir ]; then
+    mkdir -p $working_dir
+elif [ ! -d $working_dir ]; then
+    working_dir="$working_dir""_DB_BKUP"
+    if [ ! -d $working_dir ]; then
+        mkdir -p $working_dir
+    fi
 fi
 
 
@@ -60,7 +62,7 @@ case "$archive_type" in
 esac
 
 # ? Settings file name pattern, which will be deleted.
-file_name_pattern="$file_name"+"_"
+file_name_pattern="$file_name"
 
 # ? Deleting those files which are older than 2 days from current date, whose file name contains `$file_name_pattern` and whose extension is `$extension_to_check`.
 for file in $(/usr/bin/find "$working_dir" -type f -mtime +2)    # Fetches those files which are modified 2 or more days ago.
@@ -95,17 +97,17 @@ today_date=$(date +'%d_%m_%Y_%H_%M_%S')    # eg., O/P:- 25_06_2022_23_32_55
 
 
 # ? Creating a MySQL dump.
-# mysql -u"$msql_username" -p"$mysql_password" "$mysql_db_name" > "$working_dir"+"/"+"$file_name"+"_"+"$today_date".sql
-mysqldump -u"$msql_username" -p"$mysql_password" "$mysql_db_name" > "$working_dir"+"/"+"$file_name"+"_"+"$today_date".sql
+# mysql -u"$msql_username" -p"$mysql_password" "$mysql_db_name" > "$working_dir"/"$file_name"_"$today_date".sql
+mysqldump -u"$msql_username" -p"$mysql_password" "$mysql_db_name" > "$working_dir"/"$file_name"_"$today_date".sql
 
 
 # ? Performing compression on the dump created above to save disk space.
 case "$archive_type" in
 *"bzip2"*)
-    bzip2 -fqz "$working_dir"+"/"+"$file_name"+"_"+"$today_date".sql    # Also deletes the original file. To keep the original file use the `-k` option. -q –> quiet , -f ->force, -v -> verbose.
+    bzip2 -fqz "$working_dir"/"$file_name"_"$today_date".sql    # Also deletes the original file. To keep the original file use the `-k` option. -q –> quiet , -f ->force, -v -> verbose.
     ;;
 *"gzip"*)
-    gzip -fq "$working_dir"+"/"+"$file_name"+"_"+"$today_date".sql
+    gzip -fq "$working_dir"/"$file_name"_"$today_date".sql
     ;;
 *"sql"*)
     ;;
