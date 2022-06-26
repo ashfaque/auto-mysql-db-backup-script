@@ -25,7 +25,7 @@
 # ? VARIABLES DECLARATION :-
 file_name="db_backup"
 archive_type="bzip2"    # ! Options:- bzip2 / gzip / sql
-working_dir="/home/$USER/Documents/test"    # $LOGNAME or, $(id -n -u) or, $(whoami) can be used in place of $USER if it doesn't work.
+working_dir="/home/$LOGNAME/Documents/test"    # $LOGNAME or, $(id -n -u) or, $(whoami) can be used in place of $USER if it doesn't work.
 msql_username="root"
 mysql_password="password_here"
 mysql_db_name="db_name"
