@@ -25,7 +25,7 @@
 # ? VARIABLES DECLARATION :-
 file_name="db_backup"
 archive_type="bzip2"    # ! Options:- bzip2 / gzip / sql
-working_dir="/home/$USER/Documents/test"
+working_dir="/home/$USER/Documents/test"    # $LOGNAME or, $(id -n -u) or, $(whoami) can be used in place of $USER if it doesn't work.
 msql_username="root"
 mysql_password="password_here"
 mysql_db_name="db_name"
@@ -114,6 +114,9 @@ case "$archive_type" in
 *)
     ;;
 esac
+
+backup_date=$(date +'%d-%m-%Y %H:%M:%S')
+echo "Successfully created DB backup at $backup_date."
 
 # * From my personal experience I concluded that, bzip2 is slower but provides better compression i.e., smaller file size. 
 # * gzip is faster but provides mediocre compression i.e., slightly larger file size compared to bzip2.
