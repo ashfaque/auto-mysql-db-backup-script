@@ -26,7 +26,7 @@
 file_name="db_backup"
 archive_type="bzip2"    # ! Options:- bzip2 / gzip / sql
 working_dir="/home/$LOGNAME/Documents/test"    # $LOGNAME or, $(id -n -u) or, $(whoami) can be used in place of $USER if it doesn't work.
-msql_username="root"
+mysql_username="root"
 mysql_password="password_here"
 mysql_db_name="db_name"
 
@@ -97,8 +97,8 @@ today_date=$(date +'%d_%m_%Y_%H_%M_%S')    # eg., O/P:- 25_06_2022_23_32_55
 
 
 # ? Creating a MySQL dump.
-# mysql -u"$msql_username" -p"$mysql_password" "$mysql_db_name" > "$working_dir"/"$file_name"_"$today_date".sql
-mysqldump -u"$msql_username" -p"$mysql_password" "$mysql_db_name" > "$working_dir"/"$file_name"_"$today_date".sql
+# mysql -u"$mysql_username" -p"$mysql_password" "$mysql_db_name" > "$working_dir"/"$file_name"_"$today_date".sql
+mysqldump -u"$mysql_username" -p"$mysql_password" "$mysql_db_name" > "$working_dir"/"$file_name"_"$today_date".sql
 
 
 # ? Performing compression on the dump created above to save disk space.
@@ -133,9 +133,12 @@ echo "Successfully created DB backup at $backup_date."
 # ? Steps to run this script with `crontab -e` in GNU/LINUX.
 # https://fedingo.com/how-to-run-shell-script-as-cron-job/
 # crontab -e
+# ! Don't forget to create a log dir and .log file with the same name used below.
 # ? add this line below in it:-
-# 0 1 * * * sudo /full_path_here/auto_mysql_db_backup.sh >> /home/$USER/log/auto_mysql_db_backup.log 2>&1    # ! Don't forget to create a log dir and .log file with the same name used in this.
-# 0 1 * * * sudo /full_path_here/auto_mysql_db_backup.sh >/dev/null 2>&1    # If you don't want to log
+# 0 1 * * * sudo /usr/bin/sh /full_path_here/auto_mysql_db_backup.sh >> /home/$USER/log/auto_mysql_db_backup.log 2>&1    # ! Don't forget to create a log dir and .log file with the same name used in this.
+# 30 19 * * * sudo /usr/bin/sh /full_path_here/auto_mysql_db_backup.sh >/dev/null 2>&1    # If you don't want to log
+# * 1st check with `date` command the system date and set in crontab accordingly
+# Minus 5.5 hrs to convert IST to UTC, 1:00 IST is 19:30 UTC
 
 #? Crontab commands:-
 # crontab -l = List cron tables
